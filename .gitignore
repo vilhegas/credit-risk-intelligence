@@ -1,0 +1,29 @@
+# Ambientes e segredos
+.venv/
+venv/
+.env
+.env.*
+!.env.example
+
+# Python e ferramentas
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+
+# Dados e artefatos gerados
+data/
+artifacts/
+*.joblib
+*.pkl
+
+# Editores e sistema operacional
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
