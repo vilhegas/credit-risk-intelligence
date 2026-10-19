@@ -70,7 +70,7 @@ def treat_frame(frame: pd.DataFrame) -> QualityResult:
                     reasons[position].append(f"{name}:ausente")
                 continue
             try:
-                if isinstance(value, (bool, np.bool_)):
+                if isinstance(value, bool | np.bool_):
                     raise ValueError("Booleano não aceito")
                 candidate = value.strip() if isinstance(value, str) else value
                 number = pd.to_numeric(candidate, errors="raise")
