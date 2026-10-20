@@ -1,0 +1,623 @@
+{
+  "datasets": [
+    {
+      "currency": null,
+      "dataset_id": "demo-synthetic-v1",
+      "dataset_version": "demo-synthetic-v1",
+      "horizon": "um mês hipotético",
+      "license": {
+        "generation": "Geração artificial local, sem dados pessoais ou fonte UCI",
+        "publication_conditions": "Somente agregados sintéticos em lista positiva; revisão humana pendente conforme docs/evidencias-web.md"
+      },
+      "limitations": [
+        "Demonstração inteiramente sintética; não descreve clientes reais ou a base UCI.",
+        "Gerador com semente 42: as seis colunas PAY compartilham o atraso artificial; associações refletem a construção do gerador, sem interpretação causal.",
+        "Não há período observado ou moeda real; horizonte e unidade monetária são hipotéticos.",
+        "O fluxo QualityResult não foi aplicado; quality é nulo e não significa ausência de erros.",
+        "A validação participa da comparação; não representa desempenho final independente.",
+        "Simulação e permutação usam a logística de referência, não o vencedor da comparação.",
+        "Calibração não foi selecionada; identity preserva as probabilidades originais.",
+        "Teste reservado não foi avaliado. Nenhuma superioridade final ou uso operacional é alegado.",
+        "Revisão humana e procedência de árvore Git limpa pendentes; candidato não aprovado."
+      ],
+      "observation_unit": "registro artificial, não cliente real",
+      "obtained_at_utc": null,
+      "origin": "synthetic",
+      "partitions": [
+        {
+          "class_counts": {
+            "0": 142,
+            "1": 98
+          },
+          "method": "credit-split-v1; stratified_client; seed=42; frações solicitadas treino=0.6, validação=0.2, reserva=0.2; sem datas observadas; composição/ordem restritas; clientes disjuntos",
+          "observations": 240,
+          "partition_id": "train",
+          "partition_sha256": "926dca735d24f6546861ee687054ab0f553699062c42174b48f80728ca7e2db9",
+          "role": "train",
+          "used_for": [
+            "eda e ajuste"
+          ]
+        },
+        {
+          "class_counts": {
+            "0": 47,
+            "1": 33
+          },
+          "method": "credit-split-v1; stratified_client; seed=42; frações solicitadas treino=0.6, validação=0.2, reserva=0.2; sem datas observadas; composição/ordem restritas; clientes disjuntos",
+          "observations": 80,
+          "partition_id": "validation",
+          "partition_sha256": "a0a663b3684b9ce8c7629b7ec5681f4f2e3c26a76766e2c8d6b4866aedfa574c",
+          "role": "validation",
+          "used_for": [
+            "comparação, permutação e simulação sintéticas"
+          ]
+        }
+      ],
+      "population": "400 registros artificiais antes da divisão; denominadores efetivos nas partições",
+      "quality": null,
+      "reference_period": null,
+      "source": {
+        "configuration": "400 registros; gerador original; split_data padrão 0.6/0.2/0.2, seed=42; sem dados importados",
+        "generator": "src/credit_risk/presentation/demo.py:demonstration_frame",
+        "representation": "deterministic-json-input-v1: objeto columns/rows na ordem do gerador; JSON UTF-8 sort_keys=True indent=2 ensure_ascii=False, allow_nan=False, LF final; cópia somente em evidência local restrita",
+        "seed": 42
+      },
+      "source_hashes": [
+        {
+          "role": "deterministic-json-input-v1",
+          "sha256": "b0c2d657e870ff2b09e5b2f594c34ef07badfe23bf024dd68fdf549db05d10ea"
+        },
+        {
+          "role": "code:src/credit_risk/presentation/demo.py",
+          "sha256": "c96bfd99cb8cc8e5d8c083f3e7de2d34402f2689d458c2e36c6b178afbd42b87"
+        },
+        {
+          "role": "code:src/credit_risk/ingestion/uci.py",
+          "sha256": "3d4f3da1dcc16cd0d3e27e7e2b66ab7d1bc2763bb8aa8786d4b2f5d980461566"
+        },
+        {
+          "role": "code:src/credit_risk/modeling/reference.py",
+          "sha256": "d93dc55c5b76ad6d8da10da4cb507c2d544a82a103fff25c02a54982d7105b3b"
+        },
+        {
+          "role": "code:src/credit_risk/modeling/comparison.py",
+          "sha256": "291a321456c33168d3c383af02a0850ee9b81cba80b9cb8e4b841ad4a839cbc3"
+        },
+        {
+          "role": "code:src/credit_risk/modeling/splitting.py",
+          "sha256": "9ea59fd64a1de393c07ddc428682b99a66a7fda36f54d8ee51ccbb4f025b0f3f"
+        },
+        {
+          "role": "code:src/credit_risk/modeling/interpretation.py",
+          "sha256": "4416b139f87aee72e916159da90123537aac768a313568de10bdcafef1ab8c69"
+        },
+        {
+          "role": "code:src/credit_risk/analysis/eda.py",
+          "sha256": "09120177c320006e61fbd56b207993f73d90e2b00a34cb11a8f7d80b152f154a"
+        },
+        {
+          "role": "code:src/credit_risk/simulation/policies.py",
+          "sha256": "4096954cbdecc3ac75c1bc3bb716a0122aff9a2910634508d7ab662dd0ae4a0b"
+        },
+        {
+          "role": "code:web/exporters/export_synthetic.py",
+          "sha256": "f600feaa74cc6a09da13f707b74d938a10883816a7a10a370c297ee197b63049"
+        },
+        {
+          "role": "code:web/exporters/tests/test_export_synthetic.py",
+          "sha256": "d51d03a685b1eb18deaafdaff0be201eb1ba59b5237db86320864093edc3beb5"
+        },
+        {
+          "role": "code:web/scripts/validate-release.ts",
+          "sha256": "369a708441158c7d4fef50053752e3e3aac7dfde023f9a4de750c32c55bd7233"
+        },
+        {
+          "role": "code:web/scripts/verify-export-parity.ts",
+          "sha256": "d81499d3b1969a88c2b9c81bbd8a13069a3781a6ba8e78d6857f4f6b936b357c"
+        },
+        {
+          "role": "code:web/src/lib/schemas/results.ts",
+          "sha256": "b90e815c7b9b4acc2419d80278dabdcb9624e475d47aa09b6bb718b7dc64c35a"
+        },
+        {
+          "role": "code:web/src/lib/schemas/analysis.ts",
+          "sha256": "63e9b4d73b3971348a015879006b2b44b6562be60d7a7c14cee42af14f6332b8"
+        },
+        {
+          "role": "code:web/src/lib/schemas/strict-json.ts",
+          "sha256": "2c5c7fc9d6933acccae43fe913b8c7f2b8e672d3ac3bfbcb6b335354b6647466"
+        },
+        {
+          "role": "code:web/src/lib/data/releases.ts",
+          "sha256": "a5b3addd32b3ef070a8d8be937bba57874f6d546d5df7e17b682e7aace9b7cd2"
+        },
+        {
+          "role": "code:web/src/types/results.ts",
+          "sha256": "bbcc80848afc4c4428da652ef2e382e5072e7e27d9c4262b968f289054bd7b6d"
+        },
+        {
+          "role": "code:pyproject.toml",
+          "sha256": "1d8806df0655ca2e8d480ec4060344c7d275b371b9f21567e85f53f0b40ad447"
+        },
+        {
+          "role": "code:web/package-lock.json",
+          "sha256": "84b87ed8acac297ddc131f3138077fed9978c7f4a0338d5545053b47827af78f"
+        }
+      ],
+      "target": {
+        "availability_assumption": "Atributos gerados artificialmente; não há verificação de disponibilidade temporal observada",
+        "meaning": "inadimplência artificial sorteada pelo gerador",
+        "name": "default payment next month",
+        "positive_class": 1
+      }
+    }
+  ],
+  "generated_at_utc": "2026-10-20T13:58:18.791Z",
+  "limitations": [
+    "Demonstração inteiramente sintética; não descreve clientes reais ou a base UCI.",
+    "Gerador com semente 42: as seis colunas PAY compartilham o atraso artificial; associações refletem a construção do gerador, sem interpretação causal.",
+    "Não há período observado ou moeda real; horizonte e unidade monetária são hipotéticos.",
+    "O fluxo QualityResult não foi aplicado; quality é nulo e não significa ausência de erros.",
+    "A validação participa da comparação; não representa desempenho final independente.",
+    "Simulação e permutação usam a logística de referência, não o vencedor da comparação.",
+    "Calibração não foi selecionada; identity preserva as probabilidades originais.",
+    "Teste reservado não foi avaliado. Nenhuma superioridade final ou uso operacional é alegado.",
+    "Revisão humana e procedência de árvore Git limpa pendentes; candidato não aprovado."
+  ],
+  "models": [
+    {
+      "calibration_method": "identity",
+      "configuration": "{\n  \"candidate_parameters\": {\n    \"strategy\": \"prior\"\n  },\n  \"estimator_parameters\": {\n    \"constant\": null,\n    \"random_state\": 42,\n    \"strategy\": \"prior\"\n  },\n  \"preprocessing\": {\n    \"categorical\": \"most_frequent; keep_empty_features=True; one-hot; unknown=ignore\",\n    \"numeric\": \"median; keep_empty_features=True; StandardScaler\"\n  },\n  \"seed\": 42,\n  \"state_representation\": \"pickle protocol 5; restricted local artifact\"\n}",
+      "dataset_id": "demo-synthetic-v1",
+      "family": "dummy",
+      "features": [
+        "LIMIT_BAL",
+        "PAY_0",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6",
+        "BILL_AMT1",
+        "BILL_AMT2",
+        "BILL_AMT3",
+        "BILL_AMT4",
+        "BILL_AMT5",
+        "BILL_AMT6",
+        "PAY_AMT1",
+        "PAY_AMT2",
+        "PAY_AMT3",
+        "PAY_AMT4",
+        "PAY_AMT5",
+        "PAY_AMT6"
+      ],
+      "model_id": "synthetic-dummy",
+      "model_sha256": "fcd79cb73b573e6f8efb3adb1ea3e711001d0b4c32994a4385352039b526417a",
+      "model_version": "credit-comparison-v1-dummy",
+      "partition_sha256": "926dca735d24f6546861ee687054ab0f553699062c42174b48f80728ca7e2db9"
+    },
+    {
+      "calibration_method": "identity",
+      "configuration": "{\n  \"candidate_parameters\": {\n    \"C\": 1.0\n  },\n  \"estimator_parameters\": {\n    \"C\": 1.0,\n    \"class_weight\": null,\n    \"dual\": false,\n    \"fit_intercept\": true,\n    \"intercept_scaling\": 1,\n    \"l1_ratio\": null,\n    \"max_iter\": 2000,\n    \"multi_class\": \"deprecated\",\n    \"n_jobs\": null,\n    \"penalty\": \"l2\",\n    \"random_state\": 42,\n    \"solver\": \"lbfgs\",\n    \"tol\": 0.0001,\n    \"verbose\": 0,\n    \"warm_start\": false\n  },\n  \"preprocessing\": {\n    \"categorical\": \"most_frequent; keep_empty_features=True; one-hot; unknown=ignore\",\n    \"numeric\": \"median; keep_empty_features=True; StandardScaler\"\n  },\n  \"seed\": 42,\n  \"state_representation\": \"pickle protocol 5; restricted local artifact\"\n}",
+      "dataset_id": "demo-synthetic-v1",
+      "family": "logistic",
+      "features": [
+        "LIMIT_BAL",
+        "PAY_0",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6",
+        "BILL_AMT1",
+        "BILL_AMT2",
+        "BILL_AMT3",
+        "BILL_AMT4",
+        "BILL_AMT5",
+        "BILL_AMT6",
+        "PAY_AMT1",
+        "PAY_AMT2",
+        "PAY_AMT3",
+        "PAY_AMT4",
+        "PAY_AMT5",
+        "PAY_AMT6"
+      ],
+      "model_id": "synthetic-logistic_c1",
+      "model_sha256": "717c36bc5a71c0275431402a3d62bca9eec8694e1a0dec8b8d873cd73e0070ba",
+      "model_version": "demo-logistic-synthetic-v1",
+      "partition_sha256": "926dca735d24f6546861ee687054ab0f553699062c42174b48f80728ca7e2db9"
+    },
+    {
+      "calibration_method": "identity",
+      "configuration": "{\n  \"candidate_parameters\": {\n    \"C\": 0.1\n  },\n  \"estimator_parameters\": {\n    \"C\": 0.1,\n    \"class_weight\": null,\n    \"dual\": false,\n    \"fit_intercept\": true,\n    \"intercept_scaling\": 1,\n    \"l1_ratio\": null,\n    \"max_iter\": 2000,\n    \"multi_class\": \"deprecated\",\n    \"n_jobs\": null,\n    \"penalty\": \"l2\",\n    \"random_state\": 42,\n    \"solver\": \"lbfgs\",\n    \"tol\": 0.0001,\n    \"verbose\": 0,\n    \"warm_start\": false\n  },\n  \"preprocessing\": {\n    \"categorical\": \"most_frequent; keep_empty_features=True; one-hot; unknown=ignore\",\n    \"numeric\": \"median; keep_empty_features=True; StandardScaler\"\n  },\n  \"seed\": 42,\n  \"state_representation\": \"pickle protocol 5; restricted local artifact\"\n}",
+      "dataset_id": "demo-synthetic-v1",
+      "family": "logistic",
+      "features": [
+        "LIMIT_BAL",
+        "PAY_0",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6",
+        "BILL_AMT1",
+        "BILL_AMT2",
+        "BILL_AMT3",
+        "BILL_AMT4",
+        "BILL_AMT5",
+        "BILL_AMT6",
+        "PAY_AMT1",
+        "PAY_AMT2",
+        "PAY_AMT3",
+        "PAY_AMT4",
+        "PAY_AMT5",
+        "PAY_AMT6"
+      ],
+      "model_id": "synthetic-logistic_c01",
+      "model_sha256": "eb47038c0efe4de097a6452b5ca0acf60fa615956c29122d73a976f07b5e865e",
+      "model_version": "credit-comparison-v1-logistic_c01",
+      "partition_sha256": "926dca735d24f6546861ee687054ab0f553699062c42174b48f80728ca7e2db9"
+    },
+    {
+      "calibration_method": "identity",
+      "configuration": "{\n  \"candidate_parameters\": {\n    \"C\": 10.0\n  },\n  \"estimator_parameters\": {\n    \"C\": 10.0,\n    \"class_weight\": null,\n    \"dual\": false,\n    \"fit_intercept\": true,\n    \"intercept_scaling\": 1,\n    \"l1_ratio\": null,\n    \"max_iter\": 2000,\n    \"multi_class\": \"deprecated\",\n    \"n_jobs\": null,\n    \"penalty\": \"l2\",\n    \"random_state\": 42,\n    \"solver\": \"lbfgs\",\n    \"tol\": 0.0001,\n    \"verbose\": 0,\n    \"warm_start\": false\n  },\n  \"preprocessing\": {\n    \"categorical\": \"most_frequent; keep_empty_features=True; one-hot; unknown=ignore\",\n    \"numeric\": \"median; keep_empty_features=True; StandardScaler\"\n  },\n  \"seed\": 42,\n  \"state_representation\": \"pickle protocol 5; restricted local artifact\"\n}",
+      "dataset_id": "demo-synthetic-v1",
+      "family": "logistic",
+      "features": [
+        "LIMIT_BAL",
+        "PAY_0",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6",
+        "BILL_AMT1",
+        "BILL_AMT2",
+        "BILL_AMT3",
+        "BILL_AMT4",
+        "BILL_AMT5",
+        "BILL_AMT6",
+        "PAY_AMT1",
+        "PAY_AMT2",
+        "PAY_AMT3",
+        "PAY_AMT4",
+        "PAY_AMT5",
+        "PAY_AMT6"
+      ],
+      "model_id": "synthetic-logistic_c10",
+      "model_sha256": "5d9f46306a3c3f23f74c0cfa0bd1647f055a4b33ed0fc64aab4c644db80d9de6",
+      "model_version": "credit-comparison-v1-logistic_c10",
+      "partition_sha256": "926dca735d24f6546861ee687054ab0f553699062c42174b48f80728ca7e2db9"
+    },
+    {
+      "calibration_method": "identity",
+      "configuration": "{\n  \"candidate_parameters\": {\n    \"max_depth\": 3,\n    \"min_samples_leaf\": 10\n  },\n  \"estimator_parameters\": {\n    \"ccp_alpha\": 0.0,\n    \"class_weight\": null,\n    \"criterion\": \"gini\",\n    \"max_depth\": 3,\n    \"max_features\": null,\n    \"max_leaf_nodes\": null,\n    \"min_impurity_decrease\": 0.0,\n    \"min_samples_leaf\": 10,\n    \"min_samples_split\": 2,\n    \"min_weight_fraction_leaf\": 0.0,\n    \"monotonic_cst\": null,\n    \"random_state\": 42,\n    \"splitter\": \"best\"\n  },\n  \"preprocessing\": {\n    \"categorical\": \"most_frequent; keep_empty_features=True; one-hot; unknown=ignore\",\n    \"numeric\": \"median; keep_empty_features=True; StandardScaler\"\n  },\n  \"seed\": 42,\n  \"state_representation\": \"pickle protocol 5; restricted local artifact\"\n}",
+      "dataset_id": "demo-synthetic-v1",
+      "family": "tree",
+      "features": [
+        "LIMIT_BAL",
+        "PAY_0",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6",
+        "BILL_AMT1",
+        "BILL_AMT2",
+        "BILL_AMT3",
+        "BILL_AMT4",
+        "BILL_AMT5",
+        "BILL_AMT6",
+        "PAY_AMT1",
+        "PAY_AMT2",
+        "PAY_AMT3",
+        "PAY_AMT4",
+        "PAY_AMT5",
+        "PAY_AMT6"
+      ],
+      "model_id": "synthetic-tree_depth3",
+      "model_sha256": "4520a2aec0380b0591fcaa1745908e7181f52178d6beec018ee1b3e2b4c48ec8",
+      "model_version": "credit-comparison-v1-tree_depth3",
+      "partition_sha256": "926dca735d24f6546861ee687054ab0f553699062c42174b48f80728ca7e2db9"
+    },
+    {
+      "calibration_method": "identity",
+      "configuration": "{\n  \"candidate_parameters\": {\n    \"max_depth\": 6,\n    \"min_samples_leaf\": 10\n  },\n  \"estimator_parameters\": {\n    \"ccp_alpha\": 0.0,\n    \"class_weight\": null,\n    \"criterion\": \"gini\",\n    \"max_depth\": 6,\n    \"max_features\": null,\n    \"max_leaf_nodes\": null,\n    \"min_impurity_decrease\": 0.0,\n    \"min_samples_leaf\": 10,\n    \"min_samples_split\": 2,\n    \"min_weight_fraction_leaf\": 0.0,\n    \"monotonic_cst\": null,\n    \"random_state\": 42,\n    \"splitter\": \"best\"\n  },\n  \"preprocessing\": {\n    \"categorical\": \"most_frequent; keep_empty_features=True; one-hot; unknown=ignore\",\n    \"numeric\": \"median; keep_empty_features=True; StandardScaler\"\n  },\n  \"seed\": 42,\n  \"state_representation\": \"pickle protocol 5; restricted local artifact\"\n}",
+      "dataset_id": "demo-synthetic-v1",
+      "family": "tree",
+      "features": [
+        "LIMIT_BAL",
+        "PAY_0",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6",
+        "BILL_AMT1",
+        "BILL_AMT2",
+        "BILL_AMT3",
+        "BILL_AMT4",
+        "BILL_AMT5",
+        "BILL_AMT6",
+        "PAY_AMT1",
+        "PAY_AMT2",
+        "PAY_AMT3",
+        "PAY_AMT4",
+        "PAY_AMT5",
+        "PAY_AMT6"
+      ],
+      "model_id": "synthetic-tree_depth6",
+      "model_sha256": "105ef18d459017455b8d02aa561a8c87896d9f70ea5a11f6a5656c014bd5c4f1",
+      "model_version": "credit-comparison-v1-tree_depth6",
+      "partition_sha256": "926dca735d24f6546861ee687054ab0f553699062c42174b48f80728ca7e2db9"
+    },
+    {
+      "calibration_method": "identity",
+      "configuration": "{\n  \"candidate_parameters\": {\n    \"max_depth\": 10,\n    \"min_samples_leaf\": 10\n  },\n  \"estimator_parameters\": {\n    \"ccp_alpha\": 0.0,\n    \"class_weight\": null,\n    \"criterion\": \"gini\",\n    \"max_depth\": 10,\n    \"max_features\": null,\n    \"max_leaf_nodes\": null,\n    \"min_impurity_decrease\": 0.0,\n    \"min_samples_leaf\": 10,\n    \"min_samples_split\": 2,\n    \"min_weight_fraction_leaf\": 0.0,\n    \"monotonic_cst\": null,\n    \"random_state\": 42,\n    \"splitter\": \"best\"\n  },\n  \"preprocessing\": {\n    \"categorical\": \"most_frequent; keep_empty_features=True; one-hot; unknown=ignore\",\n    \"numeric\": \"median; keep_empty_features=True; StandardScaler\"\n  },\n  \"seed\": 42,\n  \"state_representation\": \"pickle protocol 5; restricted local artifact\"\n}",
+      "dataset_id": "demo-synthetic-v1",
+      "family": "tree",
+      "features": [
+        "LIMIT_BAL",
+        "PAY_0",
+        "PAY_2",
+        "PAY_3",
+        "PAY_4",
+        "PAY_5",
+        "PAY_6",
+        "BILL_AMT1",
+        "BILL_AMT2",
+        "BILL_AMT3",
+        "BILL_AMT4",
+        "BILL_AMT5",
+        "BILL_AMT6",
+        "PAY_AMT1",
+        "PAY_AMT2",
+        "PAY_AMT3",
+        "PAY_AMT4",
+        "PAY_AMT5",
+        "PAY_AMT6"
+      ],
+      "model_id": "synthetic-tree_depth10",
+      "model_sha256": "cf069dc165f246458c857a2f5d54745b1a06d76da8d1cbb56559908907c93f06",
+      "model_version": "credit-comparison-v1-tree_depth10",
+      "partition_sha256": "926dca735d24f6546861ee687054ab0f553699062c42174b48f80728ca7e2db9"
+    }
+  ],
+  "policies": [
+    {
+      "configuration": "{\n  \"calibration_method\": \"identity\",\n  \"decision_rule\": \"approve if p < threshold\",\n  \"selection\": \"fixed demonstration; no tuning\",\n  \"simulation\": {\n    \"exposure\": 100.0,\n    \"lgd\": 0.5,\n    \"revenue_rate\": 0.1,\n    \"thresholds\": [\n      0.0,\n      0.1,\n      0.2,\n      0.3,\n      0.4,\n      0.5,\n      0.6,\n      0.7,\n      0.8,\n      0.9,\n      1.0\n    ]\n  },\n  \"threshold\": 0.5\n}",
+      "frozen_at_utc": "2026-10-20T13:58:18.777Z",
+      "model_id": "synthetic-logistic_c1",
+      "policy_id": "synthetic-reference-policy",
+      "policy_sha256": "d15eacc2b6a16de3a314014ece5179e1bd963923ef5ea85d9e4f909ca1a1cba8",
+      "threshold": 0.5
+    }
+  ],
+  "producer": {
+    "code_revision": "c31a26d39d69561e0e6baeb15342276e935a4d6d",
+    "environment": {
+      "machine": "AMD64",
+      "node": "v24.15.0",
+      "numeric_runtime": "[\n  {\n    \"architecture\": \"Haswell\",\n    \"internal_api\": \"openblas\",\n    \"num_threads\": 1,\n    \"version\": \"0.3.27\"\n  },\n  {\n    \"internal_api\": \"openmp\",\n    \"num_threads\": 1,\n    \"version\": null\n  },\n  {\n    \"architecture\": \"Haswell\",\n    \"internal_api\": \"openblas\",\n    \"num_threads\": 1,\n    \"version\": \"0.3.27.dev\"\n  }\n]",
+      "numpy": "2.1.3",
+      "pandas": "2.2.3",
+      "platform": "Windows",
+      "python": "3.12.10",
+      "scikit-learn": "1.5.2",
+      "scipy": "1.14.1",
+      "threadpool_limit": "1",
+      "threadpoolctl": "3.7.0"
+    },
+    "exporter_version": "web-synthetic-export-v1",
+    "working_tree_clean": false
+  },
+  "publication_review": {
+    "decision": "pending",
+    "privacy_policy": "docs/evidencias-web.md#privacidade-e-revisão",
+    "reviewed_at_utc": null,
+    "reviewer": null,
+    "scope": "Candidato sintético para revisão; sem autorização de publicação"
+  },
+  "release_id": "synthetic-demo-v1",
+  "results": [
+    {
+      "availability": "available",
+      "bytes": 1428,
+      "dataset_id": "demo-synthetic-v1",
+      "kind": "overview",
+      "model_id": null,
+      "partition_id": "validation",
+      "path": "overview.json",
+      "policy_id": null,
+      "reason": null,
+      "result_id": "synthetic-overview",
+      "sha256": "f10683f8317585e5d1691979c24c7e04af0d726d531bdf918f160025fdd87387"
+    },
+    {
+      "availability": "available",
+      "bytes": 42633,
+      "dataset_id": "demo-synthetic-v1",
+      "kind": "eda",
+      "model_id": null,
+      "partition_id": "train",
+      "path": "eda.json",
+      "policy_id": null,
+      "reason": null,
+      "result_id": "synthetic-eda",
+      "sha256": "f95e4a7bb3f72c3682b7c6d2840d0ccc83ae86213222dfe359d82e5a04b452d6"
+    },
+    {
+      "availability": "available",
+      "bytes": 7877,
+      "dataset_id": "demo-synthetic-v1",
+      "kind": "comparison",
+      "model_id": "synthetic-logistic_c1",
+      "partition_id": "validation",
+      "path": "comparison.json",
+      "policy_id": null,
+      "reason": null,
+      "result_id": "synthetic-comparison",
+      "sha256": "5248d7ebc2af9ba91cf01548419731e54af1e22fd9899b90af6721a0e05e867a"
+    },
+    {
+      "availability": "available",
+      "bytes": 7438,
+      "dataset_id": "demo-synthetic-v1",
+      "kind": "interpretation",
+      "model_id": "synthetic-logistic_c1",
+      "partition_id": "validation",
+      "path": "interpretation.json",
+      "policy_id": null,
+      "reason": null,
+      "result_id": "synthetic-interpretation",
+      "sha256": "ce6045f218fc7ab24bf0ef4c142f8096e50683677caf41789364a8728209f8fb"
+    },
+    {
+      "availability": "available",
+      "bytes": 13406,
+      "dataset_id": "demo-synthetic-v1",
+      "kind": "simulation",
+      "model_id": "synthetic-logistic_c1",
+      "partition_id": "validation",
+      "path": "simulation.json",
+      "policy_id": "synthetic-reference-policy",
+      "reason": null,
+      "result_id": "synthetic-simulation",
+      "sha256": "98fc0283764df18d85a1c4ee9364ec6a929afe4d4155620567f3c024d00ec2ac"
+    },
+    {
+      "availability": "unavailable",
+      "bytes": null,
+      "dataset_id": null,
+      "kind": "calibration",
+      "model_id": null,
+      "partition_id": null,
+      "path": null,
+      "policy_id": null,
+      "reason": "Calibração não executada; referência identity sem seleção.",
+      "result_id": "synthetic-calibration",
+      "sha256": null
+    },
+    {
+      "availability": "unavailable",
+      "bytes": null,
+      "dataset_id": null,
+      "kind": "final_evaluation",
+      "model_id": null,
+      "partition_id": null,
+      "path": null,
+      "policy_id": null,
+      "reason": "Teste reservado não avaliado; nenhuma avaliação final executada.",
+      "result_id": "synthetic-final_evaluation",
+      "sha256": null
+    },
+    {
+      "availability": "unavailable",
+      "bytes": null,
+      "dataset_id": null,
+      "kind": "overview",
+      "model_id": null,
+      "partition_id": null,
+      "path": null,
+      "policy_id": null,
+      "reason": "Resultado real indisponível: nenhuma fonte real importada, nenhum artefato real verificado ou revisão de privacidade real.",
+      "result_id": "real-overview",
+      "sha256": null
+    },
+    {
+      "availability": "unavailable",
+      "bytes": null,
+      "dataset_id": null,
+      "kind": "eda",
+      "model_id": null,
+      "partition_id": null,
+      "path": null,
+      "policy_id": null,
+      "reason": "Resultado real indisponível: nenhuma fonte real importada, nenhum artefato real verificado ou revisão de privacidade real.",
+      "result_id": "real-eda",
+      "sha256": null
+    },
+    {
+      "availability": "unavailable",
+      "bytes": null,
+      "dataset_id": null,
+      "kind": "comparison",
+      "model_id": null,
+      "partition_id": null,
+      "path": null,
+      "policy_id": null,
+      "reason": "Resultado real indisponível: nenhuma fonte real importada, nenhum artefato real verificado ou revisão de privacidade real.",
+      "result_id": "real-comparison",
+      "sha256": null
+    },
+    {
+      "availability": "unavailable",
+      "bytes": null,
+      "dataset_id": null,
+      "kind": "calibration",
+      "model_id": null,
+      "partition_id": null,
+      "path": null,
+      "policy_id": null,
+      "reason": "Resultado real indisponível: nenhuma fonte real importada, nenhum artefato real verificado ou revisão de privacidade real.",
+      "result_id": "real-calibration",
+      "sha256": null
+    },
+    {
+      "availability": "unavailable",
+      "bytes": null,
+      "dataset_id": null,
+      "kind": "interpretation",
+      "model_id": null,
+      "partition_id": null,
+      "path": null,
+      "policy_id": null,
+      "reason": "Resultado real indisponível: nenhuma fonte real importada, nenhum artefato real verificado ou revisão de privacidade real.",
+      "result_id": "real-interpretation",
+      "sha256": null
+    },
+    {
+      "availability": "unavailable",
+      "bytes": null,
+      "dataset_id": null,
+      "kind": "final_evaluation",
+      "model_id": null,
+      "partition_id": null,
+      "path": null,
+      "policy_id": null,
+      "reason": "Resultado real indisponível: nenhuma fonte real importada, nenhum artefato real verificado ou revisão de privacidade real.",
+      "result_id": "real-final_evaluation",
+      "sha256": null
+    },
+    {
+      "availability": "unavailable",
+      "bytes": null,
+      "dataset_id": null,
+      "kind": "simulation",
+      "model_id": null,
+      "partition_id": null,
+      "path": null,
+      "policy_id": null,
+      "reason": "Resultado real indisponível: nenhuma fonte real importada, nenhum artefato real verificado ou revisão de privacidade real.",
+      "result_id": "real-simulation",
+      "sha256": null
+    }
+  ],
+  "schema_version": "credit-risk-web-v1",
+  "validation": [
+    {
+      "command": "python -m pytest web/exporters/tests tests/test_demo.py tests/test_eda.py tests/test_reference.py tests/test_comparison.py tests/test_splitting.py tests/test_interpretation.py tests/test_simulation.py -q -p no:cacheprovider --basetemp=<temporário>/pytest --junitxml=<temporário>/pytest.xml",
+      "exit_code": 0,
+      "revision": "c31a26d39d69561e0e6baeb15342276e935a4d6d",
+      "skipped_tests": [],
+      "summary": "88 testes executados; 0 ignorados; saída JUnit conferida; sem PostgreSQL ou fonte externa"
+    },
+    {
+      "command": "node --experimental-strip-types scripts/validate-release.ts <release-id> <staging-root>",
+      "exit_code": 0,
+      "revision": "c31a26d39d69561e0e6baeb15342276e935a4d6d",
+      "skipped_tests": [],
+      "summary": "Schemas TypeScript, integridade e paridade financeira da grade contra simulate_policies aprovados com tolerância relativa 1e-10"
+    }
+  ]
+}

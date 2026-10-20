@@ -1,0 +1,215 @@
+{
+  "dataset_id": "demo-synthetic-v1",
+  "kind": "interpretation",
+  "limitations": [
+    "Demonstração inteiramente sintética; não descreve clientes reais ou a base UCI.",
+    "Gerador com semente 42: as seis colunas PAY compartilham o atraso artificial; associações refletem a construção do gerador, sem interpretação causal.",
+    "Não há período observado ou moeda real; horizonte e unidade monetária são hipotéticos.",
+    "O fluxo QualityResult não foi aplicado; quality é nulo e não significa ausência de erros.",
+    "A validação participa da comparação; não representa desempenho final independente.",
+    "Simulação e permutação usam a logística de referência, não o vencedor da comparação.",
+    "Calibração não foi selecionada; identity preserva as probabilidades originais.",
+    "Teste reservado não foi avaliado. Nenhuma superioridade final ou uso operacional é alegado.",
+    "Revisão humana e procedência de árvore Git limpa pendentes; candidato não aprovado.",
+    "Importância preditiva não demonstra causalidade nem direção de efeito.",
+    "Atributos correlacionados podem compartilhar ou ocultar importância.",
+    "Permutações podem gerar combinações financeiras pouco plausíveis.",
+    "Dispersão entre permutações não é intervalo de confiança populacional."
+  ],
+  "metric_notes": {
+    "payload.segments": "Análise por segmentos não executada nesta release."
+  },
+  "model_id": "synthetic-logistic_c1",
+  "observations": 80,
+  "origin": "synthetic",
+  "partition_id": "validation",
+  "payload": {
+    "permutation": {
+      "baseline_average_precision": 0.5361060956402188,
+      "dataset_version": "demo-synthetic-v1",
+      "factors": [
+        {
+          "feature": "PAY_5",
+          "mean_ap_decrease": 0.012507824163412265,
+          "permutation_quantiles_025_975": [
+            -0.020488909693286386,
+            0.03832982418843535
+          ],
+          "permutation_std": 0.017805744811924533
+        },
+        {
+          "feature": "PAY_0",
+          "mean_ap_decrease": 0.01068200103014858,
+          "permutation_quantiles_025_975": [
+            -0.011589201880453212,
+            0.03461419472803336
+          ],
+          "permutation_std": 0.014248206185759761
+        },
+        {
+          "feature": "PAY_2",
+          "mean_ap_decrease": 0.010062949420996104,
+          "permutation_quantiles_025_975": [
+            -0.019050880328313605,
+            0.029608438515421314
+          ],
+          "permutation_std": 0.015142313098708081
+        },
+        {
+          "feature": "PAY_6",
+          "mean_ap_decrease": 0.009596585085656783,
+          "permutation_quantiles_025_975": [
+            -0.018408082039543194,
+            0.03074511638386295
+          ],
+          "permutation_std": 0.014999964947222279
+        },
+        {
+          "feature": "PAY_4",
+          "mean_ap_decrease": 0.0072238785305279605,
+          "permutation_quantiles_025_975": [
+            -0.01971721158499722,
+            0.03777209763145634
+          ],
+          "permutation_std": 0.018312851362249586
+        },
+        {
+          "feature": "PAY_AMT4",
+          "mean_ap_decrease": 0.003814546587076334,
+          "permutation_quantiles_025_975": [
+            -0.020841985857797778,
+            0.02709757897277413
+          ],
+          "permutation_std": 0.013929374659592222
+        },
+        {
+          "feature": "PAY_3",
+          "mean_ap_decrease": 0.0028468395496413336,
+          "permutation_quantiles_025_975": [
+            -0.034070219292583796,
+            0.031573588147842946
+          ],
+          "permutation_std": 0.019371216186579377
+        },
+        {
+          "feature": "LIMIT_BAL",
+          "mean_ap_decrease": 0.0021889031408496183,
+          "permutation_quantiles_025_975": [
+            -0.016911412806862237,
+            0.01617196338371975
+          ],
+          "permutation_std": 0.010336274085973794
+        },
+        {
+          "feature": "BILL_AMT1",
+          "mean_ap_decrease": 0.00029812401689870426,
+          "permutation_quantiles_025_975": [
+            -0.00024794998494581666,
+            0.0009385658940885553
+          ],
+          "permutation_std": 0.0003853050559051671
+        },
+        {
+          "feature": "BILL_AMT2",
+          "mean_ap_decrease": 4.541227169310713e-05,
+          "permutation_quantiles_025_975": [
+            -0.000654982463081008,
+            0.0006491450690998156
+          ],
+          "permutation_std": 0.0004017911344228683
+        },
+        {
+          "feature": "PAY_AMT6",
+          "mean_ap_decrease": -0.000537177278633505,
+          "permutation_quantiles_025_975": [
+            -0.030019175263413946,
+            0.03777757561118316
+          ],
+          "permutation_std": 0.01825517241683973
+        },
+        {
+          "feature": "BILL_AMT3",
+          "mean_ap_decrease": -0.0038499691815305492,
+          "permutation_quantiles_025_975": [
+            -0.01344944914489482,
+            0.00472884579662418
+          ],
+          "permutation_std": 0.00593696560756276
+        },
+        {
+          "feature": "BILL_AMT6",
+          "mean_ap_decrease": -0.005586009785047164,
+          "permutation_quantiles_025_975": [
+            -0.011989916176715973,
+            0.004483614105107489
+          ],
+          "permutation_std": 0.004800375284037051
+        },
+        {
+          "feature": "PAY_AMT2",
+          "mean_ap_decrease": -0.005708068296351282,
+          "permutation_quantiles_025_975": [
+            -0.010698905980248414,
+            0.0011019477475366357
+          ],
+          "permutation_std": 0.0039988014139010625
+        },
+        {
+          "feature": "PAY_AMT3",
+          "mean_ap_decrease": -0.008434572870965407,
+          "permutation_quantiles_025_975": [
+            -0.03467310236625497,
+            0.0084555202321286
+          ],
+          "permutation_std": 0.01451176619759927
+        },
+        {
+          "feature": "BILL_AMT4",
+          "mean_ap_decrease": -0.03209940722775173,
+          "permutation_quantiles_025_975": [
+            -0.07403515390254561,
+            0.00521264476936671
+          ],
+          "permutation_std": 0.024221344605914494
+        },
+        {
+          "feature": "PAY_AMT5",
+          "mean_ap_decrease": -0.035540581325507095,
+          "permutation_quantiles_025_975": [
+            -0.10035083038920607,
+            0.013969672346082295
+          ],
+          "permutation_std": 0.03437539565709141
+        },
+        {
+          "feature": "BILL_AMT5",
+          "mean_ap_decrease": -0.0396744993064525,
+          "permutation_quantiles_025_975": [
+            -0.07073196314282718,
+            -0.01598359491606454
+          ],
+          "permutation_std": 0.019498936681485463
+        },
+        {
+          "feature": "PAY_AMT1",
+          "mean_ap_decrease": -0.040897316886253254,
+          "permutation_quantiles_025_975": [
+            -0.06954282257313431,
+            -0.0057286902736199295
+          ],
+          "permutation_std": 0.02326207535728796
+        }
+      ],
+      "observations": 80,
+      "repeats": 20,
+      "seed": 42,
+      "version": "permutation-v1"
+    },
+    "segments": null
+  },
+  "policy_id": null,
+  "release_id": "synthetic-demo-v1",
+  "result_id": "synthetic-interpretation",
+  "schema_version": "credit-risk-web-v1",
+  "source_contract": "modeling.interpretation.permutation_report@permutation-v1"
+}

@@ -8,6 +8,13 @@ O frontend consumirá somente JSON UTF-8 estrito, com números finitos. Não ace
 
 ## Organização prevista
 
+Nota da tarefa 4: [o processo de evidências](evidencias-web.md) implementa o
+adaptador sintético e formaliza o estado pré-publicação do perfil v1. Candidatos
+podem registrar `working_tree_clean: false` e revisão `pending` com revisor/data
+nulos; são verificados integralmente e permanecem `unavailable` para apresentação.
+Somente `approved`, revisor/data reais e procedência limpa permitem disponibilidade.
+Isso não converte candidatos em resultados publicados nem altera fórmulas Python.
+
 Nota da tarefa 3: os esquemas executáveis e os carregadores estão agora em
 `web/src/lib/schemas/` e `web/src/lib/data/`. O [perfil executável](../web/src/lib/schemas/README.md)
 detalha as representações concretas e projeções sanitizadas adotadas. A tarefa 3

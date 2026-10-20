@@ -29,6 +29,11 @@ contrato, tipos, validadores, testes e produtor em conjunto.
   (referência da política aprovada) e `decision: approved`. Para grupos reais,
   essa política deve documentar os mínimos de publicação e a revisão de
   reconstrução; metadados e checksums não substituem a revisão humana.
+  Na tarefa 4, candidatos podem usar `decision: pending` com data/revisor nulos e
+  registrar o estado efetivo de `working_tree_clean`. A validação pública padrão
+  continua exigindo aprovação e árvore limpa. `validateReleaseArtifacts` confere
+  candidatos para revisão; `loadRelease` retorna indisponibilidade sem métricas
+  enquanto a revisão estiver pendente. O exportador nunca inventa aprovação.
 - `source_contract` usa `símbolo.qualificado@versão` da lista positiva em
   `results.ts`/`analysis.ts`. O símbolo nunca determina a origem. Adaptações
   são as projeções abaixo; alterações adicionais exigem novo perfil revisado.
@@ -81,9 +86,9 @@ suficientes não exige nota. Null não representa um artefato inteiro indisponí
 A tolerância numérica é `1e-10` (absoluta para taxas; relativa, com piso 1, para
 valores calculados). Contagens coincidem exatamente. Valores são preservados,
 sem arredondamento ou recálculo substitutivo. A grade nunca gera novas métricas
-durante carregamento. A tarefa 4 deverá demonstrar paridade contra o Python com
-artefatos revisados antes de publicar; os testes artificiais não demonstram
-essa paridade.
+durante carregamento. A tarefa 4 demonstra paridade do candidato sintético contra
+os produtores Python originais; consulte `docs/evidencias-web.md`. Isso não
+substitui revisão humana ou comprova desempenho real.
 
 Arquivos têm limite de 10 MiB e JSON tem profundidade máxima de 100. O loader
 rejeita arquivos e diretórios simbólicos, caminhos arbitrários, arquivos extras,

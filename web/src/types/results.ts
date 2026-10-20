@@ -48,10 +48,11 @@ export type CatalogEntry = {
   { availability: "available"; reason: null; path: string; sha256: string; bytes: number });
 export type Manifest = {
   schema_version: typeof schemaVersion; release_id: string; generated_at_utc: string;
-  producer: { code_revision: string; working_tree_clean: true; exporter_version: string; environment: Record<string, string> };
+  producer: { code_revision: string; working_tree_clean: boolean; exporter_version: string; environment: Record<string, string> };
   datasets: Dataset[]; models: Model[]; policies: Policy[]; results: CatalogEntry[];
   validation: { command: string; revision: string; exit_code: number; summary: string; skipped_tests: string[] }[];
-  publication_review: { reviewed_at_utc: string; reviewer: string; scope: string; privacy_policy: string; decision: "approved" };
+  publication_review: { reviewed_at_utc: string; reviewer: string; scope: string; privacy_policy: string; decision: "approved" } |
+    { reviewed_at_utc: null; reviewer: null; scope: string; privacy_policy: string; decision: "pending" };
   limitations: string[];
 };
 export type OverviewResult = {

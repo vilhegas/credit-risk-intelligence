@@ -1,0 +1,30 @@
+{
+  "dataset_id": "demo-synthetic-v1",
+  "kind": "overview",
+  "limitations": [
+    "Demonstração inteiramente sintética; não descreve clientes reais ou a base UCI.",
+    "Gerador com semente 42: as seis colunas PAY compartilham o atraso artificial; associações refletem a construção do gerador, sem interpretação causal.",
+    "Não há período observado ou moeda real; horizonte e unidade monetária são hipotéticos.",
+    "O fluxo QualityResult não foi aplicado; quality é nulo e não significa ausência de erros.",
+    "A validação participa da comparação; não representa desempenho final independente.",
+    "Simulação e permutação usam a logística de referência, não o vencedor da comparação.",
+    "Calibração não foi selecionada; identity preserva as probabilidades originais.",
+    "Teste reservado não foi avaliado. Nenhuma superioridade final ou uso operacional é alegado.",
+    "Revisão humana e procedência de árvore Git limpa pendentes; candidato não aprovado."
+  ],
+  "metric_notes": {},
+  "model_id": null,
+  "observations": 80,
+  "origin": "synthetic",
+  "partition_id": "validation",
+  "payload": {
+    "default_rate": 0.4125,
+    "defaults": 33,
+    "non_defaults": 47
+  },
+  "policy_id": null,
+  "release_id": "synthetic-demo-v1",
+  "result_id": "synthetic-overview",
+  "schema_version": "credit-risk-web-v1",
+  "source_contract": "demo.indicators@demo-synthetic-v1"
+}

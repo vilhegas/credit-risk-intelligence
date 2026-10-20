@@ -1,6 +1,6 @@
 # Credit Risk Intelligence — frontend
 
-Frontend independente com Next.js, TypeScript estrito, Tailwind CSS e ESLint. A tarefa 3 acrescenta carregamento e validação de resultados, sem alterar a página inicial. Exportação, páginas analíticas, gráficos e controles de simulação pertencem às próximas tarefas.
+Frontend independente com Next.js, TypeScript estrito, Tailwind CSS e ESLint. A tarefa 3 acrescentou carregamento e validação de resultados; a tarefa 4 entrega o [processo de evidências sintéticas](../docs/evidencias-web.md) e seu candidato para revisão, sem alterar a página inicial. Páginas analíticas, gráficos e controles de simulação pertencem às próximas tarefas. Python é usado somente na exportação offline; o build continua usando Node e JSON.
 
 ## Ambiente
 
@@ -39,7 +39,7 @@ Ou executar todas em sequência com `npm.cmd run check`. O lint usa ESLint diret
 
 `npm.cmd run test` utiliza `node:test` e `node:assert/strict` do Node 24, com remoção nativa de tipos TypeScript. Nenhuma dependência adicional foi instalada. As fixtures artificiais estão restritas a `tests/`; os testes usam diretórios temporários removidos ao terminar. A suíte cobre JSON estrito, os sete payloads, origem, metadados, denominadores, integridade, incompatibilidade e indisponibilidade.
 
-`npm.cmd run validate:data` confere todas as releases independentemente das páginas. A pasta está vazia nesta entrega: o sucesso do comando não representa aprovação de resultados reais ou sintéticos. Veja [src/data/README.md](src/data/README.md) para o uso dos carregadores e os estados públicos.
+`npm.cmd run validate:data` confere todos os pacotes independentemente das páginas. Há um candidato sintético pendente em `src/data/releases/synthetic-demo-v1/`; sucesso na validação não representa aprovação de publicação. O carregador público mantém candidatos pendentes indisponíveis. Veja [src/data/README.md](src/data/README.md) para os estados e [o processo de evidências](../docs/evidencias-web.md) para regeneração no Windows.
 
 Para conferir a versão de produção local após o build:
 

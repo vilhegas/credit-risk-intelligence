@@ -19,13 +19,12 @@ async function readArtifact(directory: string, filename: string): Promise<Buffer
   return readFile(target);
 }
 
-/** Server/build only. An explicit release must exist; integrity errors always throw. */
-export async function loadRelease(releaseId?: string, root = releasesDirectory): Promise<LoadedRelease> {
-  if (releaseId === undefined) return { status: "unavailable", reason: "Nenhuma release de resultados foi selecionada e verificada." };
+/** Verifies artifacts for review, including pending candidates. Does not authorize display. */
+export async function validateReleaseArtifacts(releaseId: string, root = releasesDirectory) {
   requireCondition(/^[a-zA-Z0-9][a-zA-Z0-9_-]*$/.test(releaseId), "Identificador de release inválido");
   const directory = path.join(root, releaseId);
   requireCondition(!(await lstat(directory)).isSymbolicLink(), "Release não pode ser link simbólico");
-  const manifest = validateManifest(parseStrictJson(await readArtifact(directory, "manifest.json")));
+  const manifest = validateManifest(parseStrictJson(await readArtifact(directory, "manifest.json")), { allowPendingReview: true });
   requireCondition(manifest.release_id === releaseId, "Release diverge do diretório");
   const expected = new Set(["manifest.json", ...manifest.results.flatMap((r) => r.path ? [r.path] : [])]);
   const files = await readdir(directory);
@@ -52,7 +51,17 @@ export async function loadRelease(releaseId?: string, root = releasesDirectory):
     if (result.kind === "overview") requireCondition(result.payload.defaults === partition.class_counts["1"] && result.payload.non_defaults === partition.class_counts["0"], "Classes divergem da partição");
     results[entry.result_id] = { status: dataset.origin === "real" ? "real_verified" : "synthetic", result, dataset, partition };
   }
-  return { status: "available", manifest, results };
+  return { manifest, results };
+}
+
+/** Server/build only. Pending candidates never expose their results to a page. */
+export async function loadRelease(releaseId?: string, root = releasesDirectory): Promise<LoadedRelease> {
+  if (releaseId === undefined) return { status: "unavailable", reason: "Nenhuma release de resultados foi selecionada e verificada." };
+  const verified = await validateReleaseArtifacts(releaseId, root);
+  if (verified.manifest.publication_review.decision !== "approved" || !verified.manifest.producer.working_tree_clean) {
+    return { status: "unavailable", reason: "Pacote candidato aguardando revisão e procedência de uma árvore Git limpa." };
+  }
+  return { status: "available", ...verified };
 }
 
 /** Validate every release, including releases not yet selected by a page. */

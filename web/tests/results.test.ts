@@ -281,3 +281,19 @@ test("caminhos arbitrários e tentativas de traversal são rejeitados", async ()
   }
   await assert.rejects(loadRelease("../outside"));
 });
+
+test("candidato pendente é validado integralmente, mas não expõe métricas ao frontend", async () => {
+  await withRelease(async (root, m, _r, directory) => {
+    m.producer.working_tree_clean = false;
+    m.publication_review = { decision: "pending", reviewed_at_utc: null, reviewer: null, scope: "Revisão pendente", privacy_policy: "Fixture" };
+    assert.throws(() => validateManifest(m));
+    validateManifest(m, { allowPendingReview: true });
+    await writeFile(path.join(directory, "manifest.json"), JSON.stringify(m));
+    const loaded = await loadRelease("test-only", root);
+    assert.equal(loaded.status, "unavailable");
+    assert.equal("results" in loaded, false);
+    assert.equal(await validateAllReleases(root), 1);
+    await writeFile(path.join(directory, "overview.json"), "{}");
+    await assert.rejects(loadRelease("test-only", root));
+  });
+});

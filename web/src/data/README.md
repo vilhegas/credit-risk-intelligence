@@ -1,8 +1,9 @@
 # Resultados públicos
 
-`releases/` está vazio intencionalmente. Não há resultados sintéticos nem reais
-aprovados nesta entrega. Não criar um manifesto com datas, hashes ou evidências
-fictícios para preencher esse espaço.
+`releases/synthetic-demo-v1/` contém o candidato sintético da tarefa 4.
+A revisão humana está pendente; não há resultados reais aprovados. Consulte
+[o processo de evidências](../../../docs/evidencias-web.md) para reprodução e
+procedência. O carregador mantém candidatos pendentes indisponíveis, sem payload.
 
 Cada futura release imutável usa `releases/<release_id>/manifest.json` e somente
 os JSON disponíveis declarados no catálogo. O contrato está em
@@ -25,7 +26,7 @@ Estados dos resultados:
 
 O catálogo reconhece os sete tipos do contrato e os esquemas validam seus
 payloads. Os arquivos são projeções públicas selecionadas, não relatórios Python
-inteiros. O exportador e a conciliação com os originais pertencem à tarefa 4.
+inteiros. O exportador e a conciliação com os originais estão em `web/exporters/`.
 As fixtures ficam exclusivamente em `tests/`, sem importação pela aplicação.
 
 A lista positiva do Git só permite os nomes JSON reservados. Isso não aprova

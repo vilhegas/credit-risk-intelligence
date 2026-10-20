@@ -67,15 +67,20 @@ const entry = object({ result_id: identifier, kind: literal(...kinds), dataset_i
   model_id: nullable(identifier), policy_id: nullable(identifier), availability: literal("available", "unavailable"), reason: nullable(text),
   path: nullable(text), sha256: nullable(hash), bytes: nullable(count) });
 const manifest = object({ schema_version: literal(schemaVersion), release_id: identifier, generated_at_utc: utc,
-  producer: object({ code_revision: revision, working_tree_clean: literal(true), exporter_version: text, environment: record(text) }),
+  producer: object({ code_revision: revision, working_tree_clean: literal(true, false), exporter_version: text, environment: record(text) }),
   datasets: list(dataset), models: list(model), policies: list(policy), results: list(entry),
   validation: list(object({ command: text, revision, exit_code: count, summary: text, skipped_tests: list(text) }), 1),
-  publication_review: object({ reviewed_at_utc: utc, reviewer: text, scope: text, privacy_policy: text, decision: literal("approved") }), limitations: texts });
+  publication_review: object({ reviewed_at_utc: nullable(utc), reviewer: nullable(text), scope: text, privacy_policy: text, decision: literal("approved", "pending") }), limitations: texts });
 
 function unique(values: string[]) { requireCondition(new Set(values).size === values.length, "Identificadores duplicados"); }
-export function validateManifest(value: unknown): Manifest {
+export function validateManifest(value: unknown, options: { allowPendingReview?: boolean } = {}): Manifest {
   manifest(value);
   const m = value as Manifest;
+  if (m.publication_review.decision === "approved") {
+    requireCondition(m.producer.working_tree_clean && m.publication_review.reviewed_at_utc && m.publication_review.reviewer, "Publicação exige árvore limpa e revisão identificada");
+  } else {
+    requireCondition(options.allowPendingReview && m.publication_review.reviewed_at_utc === null && m.publication_review.reviewer === null, "Candidato pendente não é release aprovada");
+  }
   requireCondition(Object.keys(m.producer.environment).includes("python"), "Ambiente Python ausente");
   unique(m.datasets.map((d) => d.dataset_id)); unique(m.models.map((d) => d.model_id));
   unique(m.policies.map((d) => d.policy_id)); unique(m.results.map((d) => d.result_id));
