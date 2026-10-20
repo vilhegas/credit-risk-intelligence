@@ -1,0 +1,20 @@
+# Dependências e saídas locais do frontend
+/node_modules/
+/.npm-cache/
+/.next/
+/out/
+/.vercel/
+*.tsbuildinfo
+
+# Configurações e logs locais
+.env*
+!.env.example
+.npmrc
+*.log
+
+# Relatórios temporários
+/coverage/
+/playwright-report/
+/test-results/
+/reports/
+
