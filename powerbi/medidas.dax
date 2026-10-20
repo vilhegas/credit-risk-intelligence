@@ -1,0 +1,91 @@
+// Criar cada medida separadamente na tabela indicada.
+// Usar os nomes de tabelas do arquivo consultas.pq.
+// Sintaxe com vírgulas; configurar separadores DAX correspondentes no Desktop.
+
+// Tabela Carteira
+Observacoes historicas =
+IF(HASONEVALUE(Execucoes[data_run_id]), SUM(Carteira[observations]))
+
+Inadimplentes historicos =
+IF(HASONEVALUE(Execucoes[data_run_id]), SUM(Carteira[defaults]))
+
+Taxa historica =
+DIVIDE([Inadimplentes historicos], [Observacoes historicas])
+
+// Tabela Desempenho
+Avaliacao selecionada =
+IF(
+    HASONEVALUE(Execucoes[data_run_id]) &&
+    HASONEVALUE(Desempenho[prediction_run_id]) &&
+    HASONEVALUE(Desempenho[model_version]),
+    1,
+    0
+)
+
+Observacoes avaliadas =
+IF([Avaliacao selecionada] = 1, SUM(Desempenho[observations]))
+
+Brier =
+IF(
+    [Avaliacao selecionada] = 1,
+    DIVIDE(SUM(Desempenho[brier_sum]), SUM(Desempenho[observations]))
+)
+
+Probabilidade media estimada =
+IF(
+    [Avaliacao selecionada] = 1,
+    DIVIDE(SUM(Desempenho[probability_sum]), SUM(Desempenho[observations]))
+)
+
+Taxa observada avaliacao =
+IF(
+    [Avaliacao selecionada] = 1,
+    DIVIDE(SUM(Desempenho[defaults]), SUM(Desempenho[observations]))
+)
+
+Precisao limiar fixo =
+IF(
+    [Avaliacao selecionada] = 1,
+    DIVIDE(SUM(Desempenho[tp]), SUM(Desempenho[tp]) + SUM(Desempenho[fp]))
+)
+
+Recall limiar fixo =
+IF(
+    [Avaliacao selecionada] = 1,
+    DIVIDE(SUM(Desempenho[tp]), SUM(Desempenho[tp]) + SUM(Desempenho[fn]))
+)
+
+// Tabela Cenarios
+Cenario selecionado =
+IF(
+    HASONEVALUE(Execucoes[data_run_id]) &&
+    HASONEVALUE(Cenarios[simulation_id]) &&
+    HASONEVALUE(Cenarios[scenario]) &&
+    HASONEVALUE(Cenarios[threshold]) &&
+    HASONEVALUE(Cenarios[currency]) &&
+    HASONEVALUE(Cenarios[horizon]) &&
+    HASONEVALUE(Cenarios[model_version]),
+    1,
+    0
+)
+
+Aprovacao simulada =
+IF(
+    [Cenario selecionado] = 1,
+    DIVIDE(SUM(Cenarios[approved]), SUM(Cenarios[observations]))
+)
+
+Inadimplencia historica entre aprovados simulados =
+IF(
+    [Cenario selecionado] = 1,
+    DIVIDE(SUM(Cenarios[approved_defaults]), SUM(Cenarios[approved]))
+)
+
+Perda estimada hipotetica =
+IF([Cenario selecionado] = 1, SUM(Cenarios[expected_loss]))
+
+Margem estimada antes de custos =
+IF(
+    [Cenario selecionado] = 1,
+    SUM(Cenarios[expected_revenue]) - SUM(Cenarios[expected_loss])
+)
