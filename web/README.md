@@ -1,6 +1,6 @@
 # Credit Risk Intelligence — frontend
 
-Fundação independente da apresentação web (tarefa 2 de 12). Next.js com App Router, TypeScript estrito, Tailwind CSS e ESLint. A página inicial apresenta o projeto e navega entre seções da própria página. Integração de resultados, páginas analíticas, gráficos e simulação pertencem às próximas tarefas.
+Frontend independente com Next.js, TypeScript estrito, Tailwind CSS e ESLint. A tarefa 3 acrescenta carregamento e validação de resultados, sem alterar a página inicial. Exportação, páginas analíticas, gráficos e controles de simulação pertencem às próximas tarefas.
 
 ## Ambiente
 
@@ -31,10 +31,15 @@ Executar dentro de `web/`:
 ```powershell
 npm.cmd run lint
 npm.cmd run typecheck
+npm.cmd run test
 npm.cmd run build
 ```
 
-Ou executar todas em sequência com `npm.cmd run check`. O lint usa ESLint diretamente e trata avisos como falha. A verificação de tipos gera os tipos de rotas com `next typegen` antes de executar `tsc --noEmit`, permitindo rodar antes do primeiro build. O build mantém a verificação de tipos do Next.js habilitada.
+Ou executar todas em sequência com `npm.cmd run check`. O lint usa ESLint diretamente e trata avisos como falha. A verificação de tipos gera os tipos de rotas com `next typegen` antes de executar `tsc --noEmit`, permitindo rodar antes do primeiro build. O build executa `validate:data` antes de compilar e mantém a verificação de tipos do Next.js habilitada. Um artefato disponível inválido ou ausente interrompe o comando.
+
+`npm.cmd run test` utiliza `node:test` e `node:assert/strict` do Node 24, com remoção nativa de tipos TypeScript. Nenhuma dependência adicional foi instalada. As fixtures artificiais estão restritas a `tests/`; os testes usam diretórios temporários removidos ao terminar. A suíte cobre JSON estrito, os sete payloads, origem, metadados, denominadores, integridade, incompatibilidade e indisponibilidade.
+
+`npm.cmd run validate:data` confere todas as releases independentemente das páginas. A pasta está vazia nesta entrega: o sucesso do comando não representa aprovação de resultados reais ou sintéticos. Veja [src/data/README.md](src/data/README.md) para o uso dos carregadores e os estados públicos.
 
 Para conferir a versão de produção local após o build:
 
@@ -42,7 +47,7 @@ Para conferir a versão de produção local após o build:
 npm.cmd run start
 ```
 
-A revisão manual deve conferir navegação por âncoras, link de pular conteúdo, teclado, foco visível, zoom de 200% e larguras de celular e desktop. Esses comandos não substituem testes de acessibilidade ou revisão visual. Não há suíte de testes comportamentais nesta fundação; ela será adicionada conforme surgirem funcionalidades nas próximas tarefas.
+A revisão manual deve conferir navegação por âncoras, link de pular conteúdo, teclado, foco visível, zoom de 200% e larguras de celular e desktop. Os testes atuais verificam a camada de dados; não substituem testes de acessibilidade ou revisão visual da interface.
 
 ## Estrutura
 
@@ -51,13 +56,19 @@ src/app/layout.tsx       Idioma, metadados e link de acesso ao conteúdo
 src/app/page.tsx         Página inicial, sem métricas ou dados de exemplo
 src/app/globals.css      Tailwind e tokens visuais iniciais
 src/components/         Cabeçalho e navegação básica
+src/types/results.ts    Contratos e estados de carregamento
+src/lib/schemas/        Validação estrita de JSON, metadados e payloads
+src/lib/data/           Leitura de releases e verificação de integridade
+src/data/releases/      Futuros agregados públicos revisados (vazio)
+tests/                  Testes unitários e de carregamento com node:test
+scripts/validate-data.ts Verificação obrigatória antes do build
 eslint.config.mjs       Regras Next.js e TypeScript
 next.config.ts          Raiz de compilação restrita a web/
 postcss.config.mjs      Integração Tailwind CSS
 tsconfig.json           TypeScript em modo estrito
 ```
 
-A fonte tipográfica é local ao sistema; o build não baixa fontes externas. Não há banco, API, leitura dos arquivos Python ou variáveis de ambiente obrigatórias. Código de cliente e mecanismos de dados serão acrescentados apenas quando necessários.
+A fonte tipográfica é local ao sistema; o build não baixa fontes externas. Não há banco, API, leitura dos arquivos Python ou variáveis de ambiente obrigatórias. A camada de dados lê exclusivamente os agregados públicos da release no servidor/build.
 
 ## Preparação para Vercel
 

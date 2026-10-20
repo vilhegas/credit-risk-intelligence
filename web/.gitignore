@@ -18,3 +18,21 @@
 /test-results/
 /reports/
 
+# Exceção pública à regra data/ da raiz: somente agregados revisados.
+!/src/lib/data/
+!/src/data/
+/src/data/*
+!/src/data/README.md
+!/src/data/releases/
+/src/data/releases/**
+!/src/data/releases/**/
+!/src/data/releases/.gitkeep
+!/src/data/releases/**/manifest.json
+!/src/data/releases/**/overview.json
+!/src/data/releases/**/eda.json
+!/src/data/releases/**/comparison.json
+!/src/data/releases/**/calibration.json
+!/src/data/releases/**/interpretation.json
+!/src/data/releases/**/final-evaluation.json
+!/src/data/releases/**/simulation.json
+

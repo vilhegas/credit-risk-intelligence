@@ -8,6 +8,12 @@ O frontend consumirá somente JSON UTF-8 estrito, com números finitos. Não ace
 
 ## Organização prevista
 
+Nota da tarefa 3: os esquemas executáveis e os carregadores estão agora em
+`web/src/lib/schemas/` e `web/src/lib/data/`. O [perfil executável](../web/src/lib/schemas/README.md)
+detalha as representações concretas e projeções sanitizadas adotadas. A tarefa 3
+não produz resultados nem comprova paridade com os produtores Python; essa
+conciliação e a revisão dos artefatos permanecem na tarefa 4.
+
 ```text
 web/src/data/releases/<release_id>/
   manifest.json
