@@ -1,0 +1,62 @@
+name: Validações sintéticas
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    # Runner efêmero previamente preparado, exclusivo deste repositório.
+    # Não habilitar para contribuições externas em runner persistente.
+    runs-on: [self-hosted, ephemeral, credit-risk]
+    timeout-minutes: 20
+    env:
+      TEST_DATABASE_URL: ${{ secrets.TEST_DATABASE_URL }}
+      TEST_MIGRATION_DATABASE_URL: ${{ secrets.TEST_MIGRATION_DATABASE_URL }}
+      PYTHONPATH: src
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        with:
+          persist-credentials: false
+      - name: Verificar ambiente e executar lint e testes
+        shell: python {0}
+        run: |
+          import os
+          import subprocess
+          import sys
+          from sqlalchemy import create_engine, text
+          from sqlalchemy.engine import make_url
+
+          names = ('TEST_DATABASE_URL', 'TEST_MIGRATION_DATABASE_URL')
+          if not all(os.environ.get(name) for name in names):
+              raise SystemExit('As duas URLs do PostgreSQL de testes são obrigatórias.')
+          urls = [make_url(os.environ[name]) for name in names]
+          if any(url.get_backend_name() != 'postgresql' for url in urls):
+              raise SystemExit('A integração exige PostgreSQL.')
+          identities = [(url.host, url.port or 5432, url.database) for url in urls]
+          if identities[0] != identities[1]:
+              raise SystemExit('As URLs devem referenciar o mesmo banco exclusivo.')
+          for name in names:
+              engine = create_engine(os.environ[name], hide_parameters=True)
+              try:
+                  with engine.connect() as connection:
+                      connection.execute(text('SELECT 1'))
+              except Exception:
+                  raise SystemExit('PostgreSQL de testes indisponível.') from None
+              finally:
+                  engine.dispose()
+          commands = [
+              [sys.executable, '-m', 'ruff', 'check', '.'],
+              [sys.executable, '-m', 'pytest'],
+          ]
+          for command in commands:
+              subprocess.run(command, check=True, shell=False)
